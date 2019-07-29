@@ -1,13 +1,11 @@
-import numpy as np
 import re
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 import urlextract
-
 url_extractor = urlextract.URLExtract()
+
 
 # Replace URLs and numbers
 class removeWeirdThings(BaseEstimator, TransformerMixin):
@@ -32,10 +30,10 @@ class removeWeirdThings(BaseEstimator, TransformerMixin):
         return X_transformed
 
 
-# Default values: use_idf=True, smooth_idf=True, min_df=1, lowercase=True, encoding=utf-8
 preprocess_pipeline = Pipeline([
     ('clean', removeWeirdThings()),
-    ('vect', CountVectorizer(stop_words="english")),
+    ('vect',  CountVectorizer(stop_words="english")),
+    # Default values: use_idf=True, smooth_idf=True, min_df=1, lowercase=True, encoding=utf-8
     ('tfidf', TfidfTransformer())
 ])
 
