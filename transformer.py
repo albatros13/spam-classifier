@@ -1,14 +1,13 @@
 import re
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 import urlextract
 url_extractor = urlextract.URLExtract()
 
 
-# Replace URLs and numbers
-class removeWeirdThings(BaseEstimator, TransformerMixin):
+# Replace non-informative things in the email text such as URLs and numbers
+class ReplaceWeirdThings(BaseEstimator, TransformerMixin):
     def __init__(self, replace_urls=True, replace_numbers=True):
         self.replace_urls = replace_urls
         self.replace_numbers = replace_numbers
@@ -31,9 +30,8 @@ class removeWeirdThings(BaseEstimator, TransformerMixin):
 
 
 preprocess_pipeline = Pipeline([
-    ('clean', removeWeirdThings()),
-    ('vect',  CountVectorizer(stop_words="english")),
+    ('clean', ReplaceWeirdThings()),
     # Default values: use_idf=True, smooth_idf=True, min_df=1, lowercase=True, encoding=utf-8
-    ('tfidf', TfidfTransformer())
+    ('tfidf', TfidfVectorizer(stop_words="english"))
 ])
 

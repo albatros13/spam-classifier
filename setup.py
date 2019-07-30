@@ -21,9 +21,8 @@ setup(
     install_requires=['sklearn','numpy','joblib','urlextract','re'],
     entry_points={
         'console_scripts': [
-            'train_classifier=main:train_classifier',
-            'get_spam_proba=main:get_spam_proba',
-
+            'train_and_save=main:train_and_save',
+            'load_and_predict=main:load_and_predict',
         ],
     },
     project_urls={  # Optional
