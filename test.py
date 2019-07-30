@@ -1,7 +1,6 @@
 import unittest
 import numpy as np
-from main import load_data, train_classifier, spam_probability, save_classifier, load_classifier
-from transformer import preprocess_pipeline
+from classifier import load_data, save_classifier, load_classifier, pipeline
 from sklearn.metrics import precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 
@@ -19,16 +18,13 @@ class TestClassifier(unittest.TestCase):
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         print('Split data into {} training samples and {} testing samples'.format(len(self.X_train), len(self.X_test)))
 
-        self.clf = train_classifier(self.X_train, self.y_train)
-        file_name = "saved_model.pk1"
-        save_classifier(self.clf, file_name)
-        print('The classifier has been trained and saved in a file: {}'.format(file_name))
+        self.clf = pipeline.fit(self.X_train, self.y_train)
+        save_classifier(self.clf)
 
-    # Test classifier accuracy
+    # Test classifier performance
     # @unittest.skip("Skipping performance test")
     def test_classifier(self):
-        X_test_transformed = preprocess_pipeline.transform(self.X_test)
-        y_pred = self.clf.predict(X_test_transformed)
+        y_pred = self.clf.predict(self.X_test)
         precision = 100 * precision_score(self.y_test, y_pred)
         recall = 100 * recall_score(self.y_test, y_pred)
         f1 = 100 * f1_score(self.y_test, y_pred)
@@ -45,19 +41,20 @@ class TestClassifier(unittest.TestCase):
     # @unittest.skip("Skipping load test")
     def test_load(self):
         clf_loaded = load_classifier()
-        X_test_transformed = preprocess_pipeline.transform(self.X_test)
-        y_pred_loaded = clf_loaded.predict(X_test_transformed)
-        y_pred = self.clf.predict(X_test_transformed)
+        y_pred_loaded = clf_loaded.predict(self.X_test)
+        y_pred = self.clf.predict(self.X_test)
         mean1 = np.mean(y_pred_loaded == self.y_test)
         mean2 = np.mean(y_pred == self.y_test)
-        self.assertAlmostEqual(mean1, mean2)
+        self.assertEqual(mean1, mean2)
 
     # Test that saved model can be used for prediction
     # @unittest.skip("Skipping prediction test")
     def test_predict_probability(self):
         clf_loaded = load_classifier()
-        p = round(spam_probability(clf_loaded, self.X_test[0]), 2)
-        # print("The predicted probability of the email being spam is:", p)
+        email = "Dear Winner, we wish to congratulate and inform you that your email address has won ($2,653,000 two million six hundred and fifty three thousand US Dollars)"
+        p = clf_loaded.predict_proba([email])
+        p = round(p[0][1],2)
+        print("The predicted probability of the email being spam is:", p)
         self.assertGreaterEqual(p, 0)
         self.assertLessEqual(p, 1)
 

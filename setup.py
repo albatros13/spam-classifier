@@ -12,21 +12,22 @@ setup(
     description='A machine learning exercise that trains a spam filter',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/pypa/sampleproject',
+    url='https://github.com/albatros13/spam-classifier',
     author='Natallia Kokash',
     author_email='natallia.kokash@gmail.com',
     keywords='machine learning classifier email spam filter',
-    py_modules=["main"],
+    py_modules=['classifier'],
     python_requires='>=3.0.*',
-    install_requires=['sklearn','numpy','joblib','urlextract','re'],
+    install_requires=['sklearn', 'numpy', 'joblib', 'urlextract', 'regex'],
     entry_points={
         'console_scripts': [
-            'train_and_save=main:train_and_save',
-            'load_and_predict=main:load_and_predict',
+            'train=classifier:train_and_save',
+            'predict=classifier:load_and_predict',
         ],
     },
-    project_urls={  # Optional
-        'Bug Reports': 'https://github.com/pypa/sampleproject/issues',
-        'Source': 'https://github.com/pypa/sampleproject/',
+    test_suite='test',
+    project_urls={
+        'Bug Reports': 'https://github.com/albatros13/spam-classifier/issues',
+        'Source': 'https://github.com/albatros13/spam-classifier/',
     },
 )

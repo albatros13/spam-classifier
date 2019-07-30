@@ -1,11 +1,32 @@
-The program trains a spam classifier based on a pre-defined set of spam and non-spam emails.
-The model file produced by the program can be used to get a probability of a text being a spam.
+A console utility that trains a spam classifier based on a pre-defined set of spam and non-spam emails.
+The model file produced by the utility can be used to get a probability of a text being a spam.
 
-The module contains a helper, Jupyter file `prepare_data.ipynb`, to load and extract training data 
-from the SpamAssassin public mail corpus "http://spamassassin.apache.org/old/publiccorpus/"
+The tool relies on the [Scikit-learn](http://scikit-learn.org) library and uses 
+[Multinomial naive Bayes](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html) classification algorithm with 
+[tf-idf](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html) statistics.
+ 
+
+The source code contains a helper, Jupyter file `prepare_data.ipynb`, to load and extract training data 
+from the [SpamAssassin public mail corpus](http://spamassassin.apache.org/old/publiccorpus/)
+
+The `test.py` file contains unit tests to evaluate classifier performance. 
+
+## Installation
+The utility can be packaged and installed from the source code using the following commands
+```
+    $ python setup.py sdist bdist_wheel
+    $ pip install dist/spam-classifier-1.0.0.tar.gz
+```
+
+# Usage examples
+After installation, call `$ train` to train the classifier on data in the current folder and output to the default model file.
+Alternatively, provide the path to the training data and/or 
+
+`$ predict "Dear Winner, we wish to congratulate and inform you that your email address has won ($2,653,000 two million six hundred and fifty three thousand US Dollars)" `
+
 
 ## Input 
-For spam classifier training, call `train_and_save` function; its `data_path` parameter expects a path to a folder with 
+For spam classifier training, call `train`. The command invokes the `train_and_save` function; its `data_path` parameter expects a path to a folder with 
 the following structure:
 ```
 training_data
@@ -20,13 +41,13 @@ training_data
         ...
         email_M.txt
 ```
-Other two parameters, `model_file` and `vectorizer_file` are optional file names to save the trained model and the term statistics.
+Second parameter, `model_file` is an optional file name to save the trained model.
 
-All parameters are optional: if the data path is not given, 
-the utility expects data to be in the current folder and the default file names for storage are used. 
+All parameters are optional: if the data path is not provided, 
+the utility expects data to be in the current folder. By default, the model is stored in the file `saved_model.pk1`. 
 
-For estimating probability of an email to be spam, call `load_and_predict` function passing the email's text, and 
-saved model and vectorizer files as parameters. 
+For estimating probability of an email to be spam, call `predict`. The command invokes the `load_and_predict` function passing the email's text, and 
+saved model as parameter. The latter can be skipped if the default file name was used.  
 
 ## Output 
 The `train_and_save` produces two files with serialized model and term statistics for the training data. 
