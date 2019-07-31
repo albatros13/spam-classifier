@@ -12,7 +12,15 @@ from the [SpamAssassin public mail corpus](http://spamassassin.apache.org/old/pu
 The `test.py` file contains unit tests to evaluate classifier performance. 
 
 ## Installation
-The utility can be packaged and installed from the source code using the following commands
+To install from github, run
+```
+    $ pip install git+https://github.com/albatros13/spam-classifier/
+```
+To install from the source code:
+```
+    $ python setup.py install
+```
+To package and install from the source code:
 ```
     $ python setup.py sdist
     $ pip install dist/spam-classifier-1.0.0.tar.gz
@@ -46,8 +54,8 @@ Both parameters are optional: if the data path is not provided,
 the utility expects data to be in the current folder. 
 By default, the model is stored in the file `saved_model.pk1`. 
 
-The `predict` entry point invokes the `load_and_predict` function passing the email's text and the  
-saved classifier as parameter. The latter can be skipped if the default file name was used.  
+The `predict` entry point invokes the `load_and_predict` function passing the email's text and 
+the saved classifier as parameter. The latter can be skipped if the default file name was used.  
 
 ## Output 
 The `train_and_save` produces a file with serialized pipeline (pre-processor, vectorizer and classification algorithm). 
