@@ -14,24 +14,38 @@ The `test.py` file contains unit tests to evaluate classifier performance.
 ## Installation
 To install from github, run
 ```
-    $ pip install git+https://github.com/albatros13/spam-classifier/
+$ pip install git+https://github.com/albatros13/spam-classifier/
 ```
 To install from the source code:
 ```
-    $ python setup.py install
+$ python setup.py install
 ```
 To package and install from the source code:
 ```
-    $ python setup.py sdist
-    $ pip install dist/spam-classifier-1.0.0.tar.gz
+$ python setup.py sdist
+$ pip install dist/spam-classifier-1.0.0.tar.gz
 ```
 
 # Usage examples
-After installation, call `$ train` to train the classifier on data in the current folder and output to the default model file.
-Alternatively, provide the path to the training data and/or the output file name, e.g. `$ train "c:/" my_model.mdl`
+To train the classifier on data in the current folder with output to the default file, simply run 
+```
+$ train
+``` 
+Alternatively, provide the path to the training data and/or the output file name, e.g. 
+```
+$ train "c:/" my_model.mdl
+```
 
 To estimate the probability of an email being spam, call `predict` followed by the email text, e.g.,
-`$ predict "Dear Winner, we wish to congratulate and inform you that your email address has won ($2,653,000 two million six hundred and fifty three thousand US Dollars)" `
+```
+$ predict "Dear Winner, we wish to congratulate and inform you that your email address has won 
+    ($2,653,000 two million six hundred and fifty three thousand US Dollars)" 
+```
+
+To evaluate performance, run: 
+```
+$ python setup.py test
+``` 
 
 ## Input 
 The `train` entry point invokes the `train_and_save` function; its `data_path` parameter expects a path to a folder with the following structure:
