@@ -14,7 +14,7 @@ The `test.py` file contains unit tests to evaluate classifier performance.
 ## Installation
 The utility can be packaged and installed from the source code using the following commands
 ```
-    $ python setup.py sdist bdist_wheel
+    $ python setup.py sdist
     $ pip install dist/spam-classifier-1.0.0.tar.gz
 ```
 
